@@ -70,6 +70,14 @@ The following are all valid options:
 See [ActiveSupport::Cache.lookup_store](http://api.rubyonrails.org/classes/ActiveSupport/Cache.html#method-c-lookup_store)
 for details.
 
+If you are doing this on a production system where cache data is changing you'll need to find a way 
+to collected and process the changed keys as well.
+ 
+## Caveats
+
+- Do not assign a Rail 4 cache to the old cache instance. Someone could inject data into your cache server that gets 
+  marshaled by this code when the data was not expected to be marshaled.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt 

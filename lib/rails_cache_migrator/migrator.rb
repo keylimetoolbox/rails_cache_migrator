@@ -19,5 +19,16 @@ module RailsCacheMigrator
       @old_store = ActiveSupport::Cache.lookup_store rails_3
       @new_store = ActiveSupport::Cache.lookup_store rails_4
     end
+
+    def migrate(key)
+     @new_store.write(key, deserialize_entry(@old_store.read(key)))
+    end
+
+    private
+
+    def deserialize_entry(raw_value)
+      return nil unless raw_value
+      Marshal.load(raw_value) rescue raw_value
+    end
   end
 end

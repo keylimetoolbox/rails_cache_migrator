@@ -24,4 +24,17 @@ describe RailsCacheMigrator::Migrator do
     end
   end
 
+  context '#migrate' do
+    let(:old_spec) { double 'old store' }
+    let(:new_spec) { double 'new store' }
+    let(:stored_datum) { Marshal.dump(datum) }
+    let(:datum) { {datum: 'penguin'} }
+
+    it 'writes the Marshaled data to the new store' do
+      allow(old_spec).to receive(:read).and_return stored_datum
+      expect(new_spec).to receive(:write).with('key', datum)
+      subject.migrate('key')
+    end
+  end
+
 end
